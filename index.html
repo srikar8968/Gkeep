@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>GKeep</title>
+	<meta https-equiv="X-UA-Compatible" content="IE=edge"/>
+	<meta https-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+	<meta name="document-type" content="Public"/>
+	<link rel="stylesheet" href="css/app.css">
+	<link href="https://fonts.googleapis.com/css2?family=Titillium+Web:wght@300;400;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+	<header class="nt__navi">
+		<a href="javascript:void(0)" class="nt__logo"><span class="nt__txt__primary">
+			<svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 20 20"><path fill="#007bff" d="M15.5 11h-11c-.275 0-.5.225-.5.5v1a.5.5 0 00.5.5h11a.5.5 0 00.5-.5v-1a.5.5 0 00-.5-.5zm0-4h-11c-.275 0-.5.225-.5.5v1a.5.5 0 00.5.5h11a.5.5 0 00.5-.5v-1a.5.5 0 00-.5-.5zm-5 8h-6c-.275 0-.5.225-.5.5v1a.5.5 0 00.5.5h6a.5.5 0 00.5-.5v-1a.5.5 0 00-.5-.5zm5-12h-11c-.275 0-.5.225-.5.5v1a.5.5 0 00.5.5h11a.5.5 0 00.5-.5v-1a.5.5 0 00-.5-.5z"/></svg>
+		</span>note</a>
+		<div class="nt__search_st">
+			<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="20" height="20" fill="rgb(118, 118, 118)"><path d="M16.32 14.9l5.39 5.4a1 1 0 0 1-1.42 1.4l-5.38-5.38a8 8 0 1 1 1.41-1.41zM10 16a6 6 0 1 0 0-12 6 6 0 0 0 0 12z"/></svg>
+			<input type="text" name="search" id="nt__search" placeholder="Search Notes (In Development)" required>
+		</div>
+		<div class="nt__navi__ics">
+			<button class="nt__navi__item" type="button" onclick="addNote()"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M16 10c0 .553-.048 1-.601 1H11v4.399c0 .552-.447.601-1 .601-.553 0-1-.049-1-.601V11H4.601C4.049 11 4 10.553 4 10c0-.553.049-1 .601-1H9V4.601C9 4.048 9.447 4 10 4c.553 0 1 .048 1 .601V9h4.399c.553 0 .601.447.601 1z"/></svg></button>
+			<button class="nt__navi__item" type="button" onclick="changeGrid()"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M14.4 9H8.6c-.552 0-.6.447-.6 1s.048 1 .6 1h5.8c.552 0 .6-.447.6-1s-.048-1-.6-1zm2 5H8.6c-.552 0-.6.447-.6 1s.048 1 .6 1h7.8c.552 0 .6-.447.6-1s-.048-1-.6-1zM8.6 6h7.8c.552 0 .6-.447.6-1s-.048-1-.6-1H8.6c-.552 0-.6.447-.6 1s.048 1 .6 1zM5.4 9H3.6c-.552 0-.6.447-.6 1s.048 1 .6 1h1.8c.552 0 .6-.447.6-1s-.048-1-.6-1zm0 5H3.6c-.552 0-.6.447-.6 1s.048 1 .6 1h1.8c.552 0 .6-.447.6-1s-.048-1-.6-1zm0-10H3.6c-.552 0-.6.447-.6 1s.048 1 .6 1h1.8c.552 0 .6-.447.6-1s-.048-1-.6-1z"/></svg></button>
+			<button class="nt__navi__item" type="button" onclick="init()"><svg viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M10 3a7 7 0 00-4.95 11.95l1.414-1.414A5 5 0 0110 5V3zm4.95 2.05A7 7 0 0110 17v-2a5 5 0 003.536-8.536L14.95 5.05zM10 20l-4-4 4-4v8zm0-12l4-4-4-4v8z" fill-rule="evenodd"/></svg></button>
+		</div>
+	</header>
+	<div class="nt__pg" id="note__pg">
+		<div class="nt__content">
+			<div id="nt__notes">
+				<div id="nt__note_pinned"></div>
+				<div id="nt__note_oth"></div>
+				<div id="nt__note_archived"></div>
+			</div>
+		</div>
+		<div class="nt__sidebar">
+			<div class="nt__sd_head">
+				<h3>New Note <sup class="nt__txt__primary">+</sup></h3>
+				<div class="nt__sd_toolbar">
+					<button type="button" onclick="pinNewNote()" class="bt_ic ic ic__pinned"></button>
+					<button type="button" onclick="resetNote()" class="bt_ic ic ic__delete"></button>
+					<!-- <button type="button" class="bt_ic ic ic__cancel"></button> -->
+				</div>
+			</div>
+			<div class="nt__new__fill">
+				<form role="form" autocomplete="off" onsubmit="event.preventDefault(); saveNote()">
+					<input type="hidden" id="n__pinned" value="false">
+					<input type="text" id="n__title" class="nt__inp" placeholder="Title" required>
+					<textarea rows="6" id="n__note" class="nt__inp" oninput="auto_grow(this)" placeholder="Your Note"></textarea>
+				</form>
+				<button type="submit" class="nt__btn nt__bg_red" onclick="event.preventDefault(); saveNote()">Save</button>
+			</div>
+		</div>
+		<div id="nt__notify_section"></div>
+	</div>
+	<script src="js/app.js"></script>
+</body>
+</html>
