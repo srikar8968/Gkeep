@@ -521,7 +521,7 @@ svg{
 .nt__card .nt__toolbar .ic__colorpallete{
   position: relative;
 }
-.nt__card .nt__toolbar .ic__colorpallete:hover .nt__color{
+.ic__colorpallete:hover .nt__color, .ic__colorpallete:focus .nt__color{
   visibility: visible;
   opacity: 1;
   transition: all 0.3s ease;
@@ -588,11 +588,30 @@ svg{
   .nt__sidebar{
     width: 100%;
     order: 1;
+    min-height: auto !important;
   }
   .nt__content{
     order: 2;
   }
   .nt__search_st{
+    display: none;
+  }
+  .nt__toolbar .nt__actions{
+    opacity: 1;
+    visibility: visible;
+  }
+  .nt__card{
+    margin: .5rem 0;
+  }
+}
+@media(max-width: 922px){
+  #nt__notes .nt__card_section{
+  flex-direction: column !important;
+  }
+  #nt__notes .nt__card_section .nt__card{
+    max-width: 100% !important;
+  }
+  .nt__navi__item:nth-child(2){
     display: none;
   }
 }
