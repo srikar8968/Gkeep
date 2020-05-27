@@ -518,13 +518,18 @@ svg{
   visibility: visible;
   transition: opacity 0.2s ease;
 }
-.nt__card .nt__toolbar .ic__colorpallete{
+.ic__colorpallete{
   position: relative;
 }
 .ic__colorpallete:hover .nt__color, .ic__colorpallete:focus .nt__color{
   visibility: visible;
   opacity: 1;
   transition: all 0.3s ease;
+}
+.nt__sd_toolbar .nt__color{
+  right: 0;
+  left: auto;
+  transform: translateX(0);
 }
 .nt__color{
   width: 180px;
