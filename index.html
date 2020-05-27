@@ -38,6 +38,7 @@
 				<h3>New Note <sup class="nt__txt__primary">+</sup></h3>
 				<div class="nt__sd_toolbar">
 					<button type="button" onclick="pinNewNote()" class="bt_ic ic ic__pinned"></button>
+					<button type="button" id="nt__bt_color" class="bt_ic ic ic__colorpallete"></button>
 					<button type="button" onclick="resetNote()" class="bt_ic ic ic__delete"></button>
 					<!-- <button type="button" class="bt_ic ic ic__cancel"></button> -->
 				</div>
@@ -45,6 +46,7 @@
 			<div class="nt__new__fill">
 				<form role="form" autocomplete="off" onsubmit="event.preventDefault(); saveNote()">
 					<input type="hidden" id="n__pinned" value="false">
+					<input type="hidden" id="n__color" value="">
 					<input type="text" id="n__title" class="nt__inp" placeholder="Title" required>
 					<textarea rows="6" id="n__note" class="nt__inp" oninput="auto_grow(this)" placeholder="Your Note"></textarea>
 				</form>
