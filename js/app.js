@@ -31,12 +31,13 @@ var localNotes = [];
 var searchQuery = null;
 
 function init(){
+	document.getElementById('nt__note_pinned').innerHTML = document.getElementById('nt__note_oth').innerHTML = document.getElementById('nt__note_archived').innerHTML = document.getElementById('nt__empty').innerHTML = '';
 	if(notes.length){
 		noteInit('nt__note_pinned', false, true);
 		noteInit('nt__note_oth');
 		noteInit('nt__note_archived', true);
 	}else{
-		document.getElementById('nt__notes').innerHTML = '<div class="nt__empty__bx"><img src="images/empty.svg" /><button onclick="addNote()">No notes yet, Add new now</button></div>';
+		document.getElementById('nt__empty').innerHTML = '<div class="nt__empty__bx"><img src="images/empty.svg" /><button onclick="addNote()">No notes yet, Add new now</button></div>';
 	}
 }
 
@@ -181,9 +182,10 @@ function generateColorPallete(index, type = 'card'){
 }
 function deleteNote(note){
 	let i = note.getAttribute('data-item');
+	const noteTitle = notes[i].title;
 	notes.splice(i, 1);
 	init();
-	notify('Deleted ' + notes[i].title, 'error')
+	notify('Deleted ' + noteTitle, 'error')
 }
 
 function archiveNote(note){
