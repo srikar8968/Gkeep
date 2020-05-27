@@ -41,9 +41,12 @@ function init(){
 }
 
 function noteInit(element, ntArchived = false, ntPinned = false) {
+	// initials
 	var el = document.getElementById(element);
-	el.innerHTML = '';
+	el.innerHTML = document.getElementById('nt__notify_section').innerHTML = '';
+	document.getElementById('nt__bt_color').appendChild(generateColorPallete(0, 'new'));
 	el.style.display = 'block';
+	// creating dynamic DOMs
 	let parentNode = document.createElement('div');
 	let parentNodeTitle = document.createElement('h2');
 	parentNode.classList.add('nt__card_section');
@@ -106,17 +109,7 @@ function createNote(nt, index) {
 	let nodeToolbarChildTwo = document.createElement('span');
 	let nodeDate = document.createTextNode(nt.createdAt.toDateString());
 	nodeToolbarChildTwo.appendChild(nodeDate);
-	// create color pallete
-	let nodeColorPallete = document.createElement('ul');
-	nodeColorPallete.className = 'nt__color';
-	for(let theme in themes){
-		let nodePalleteChild = document.createElement('li');
-		nodePalleteChild.style.backgroundColor = themes[theme];
-		nodePalleteChild.setAttribute('data-color', themes[theme]);
-		nodePalleteChild.setAttribute('data-item', index);
-		nodePalleteChild.addEventListener('click', function() { changeColor(nodePalleteChild) })
-		nodeColorPallete.appendChild(nodePalleteChild);
-	}
+	
 	// creating toolbar action buttons
 	for(let idx in toolbar){
 		let nodeBtn = document.createElement('button');
@@ -132,7 +125,7 @@ function createNote(nt, index) {
 		}else if(toolbar[idx] === 'pinned') {
 			nodeBtn.addEventListener('click', function() { pinNote(nodeBtn) });
 		}else if(toolbar[idx] === 'colorpallete') {
-			nodeBtn.appendChild(nodeColorPallete);
+			nodeBtn.appendChild(generateColorPallete(index));
 		}
 		nodeToolbarChildOne.appendChild(nodeBtn);
 	}
@@ -150,13 +143,14 @@ function saveNote(){
 	var ntitle = document.getElementById('n__title');
 	var nNote = document.getElementById('n__note');
 	var nPinned = document.getElementById('n__pinned');
+	var nColor = document.getElementById('n__color');
 	if(ntitle.value || nNote.value){
 		const note = {
 			title: ntitle.value,
 			note: nNote.value,
 			pinned: (nPinned.value === 'true'),
 			archived: false,
-			theme: null,
+			theme: nColor.value || null,
 			createdAt: new Date()
 		}
 		notes.push(note);
@@ -167,7 +161,23 @@ function saveNote(){
 		notify('Please add your note content', 'error');
 	}
 }
-function updateNote(){
+function generateColorPallete(index, type = 'card'){
+	// create color pallete
+	let nodeColorPallete = document.createElement('ul');
+	nodeColorPallete.className = 'nt__color';
+	for(let theme in themes){
+		let nodePalleteChild = document.createElement('li');
+		nodePalleteChild.style.backgroundColor = themes[theme];
+		nodePalleteChild.setAttribute('data-color', themes[theme]);
+		if((type == 'card') && index){
+			nodePalleteChild.setAttribute('data-item', index);
+			nodePalleteChild.addEventListener('click', function() { changeColor(nodePalleteChild) });
+		}else{
+			nodePalleteChild.addEventListener('click', function() { colorNewNote(nodePalleteChild) })
+		}
+		nodeColorPallete.appendChild(nodePalleteChild);
+	}
+	return nodeColorPallete;
 }
 function deleteNote(note){
 	let i = note.getAttribute('data-item');
@@ -193,7 +203,7 @@ function changeColor(node){
 	let i = node.getAttribute('data-item');
 	notes[i].theme = color;
 	document.getElementById('note_' + i).style.backgroundColor = color;
-	notify('Changed ' + notes[i].title + 'theme color');
+	notify('Changed ' + notes[i].title + ' theme color');
 	// init();
 }
 
@@ -218,12 +228,17 @@ function changeGrid(change = true){
 	}
 }
 function resetNote(){
-	document.getElementById('n__title').value = document.getElementById('n__note').value = '';
+	document.getElementById('n__title').value = document.getElementById('n__color').value = document.getElementById('n__note').value = '';
 	document.getElementById('n__pinned').value = 'false';
 }
 function pinNewNote(){
 	let pinned = document.getElementById('n__pinned');
 	pinned.value = !(pinned.value === 'true');
+}
+function colorNewNote(node){
+	let color = node.getAttribute('data-color');
+	let colorDom = document.getElementById('n__color');
+	colorDom.value = color;
 }
 function addNote(){
 	resetNote();
